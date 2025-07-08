@@ -143,6 +143,56 @@ test(unit): add test for failed import rows
 4. Pastikan semua test pass
 5. Submit pull request dengan deskripsi lengkap
 
+## Release Management
+
+### Tagging Versions
+
+Untuk membuat release yang bisa diinstall dengan versi spesifik:
+
+```bash
+# Tag version
+git tag v1.0.0
+git push origin v1.0.0
+
+# User bisa install dengan:
+# composer require apriansyahrs/import-excel:v1.0.0
+```
+
+### Semantic Versioning
+
+Gunakan semantic versioning untuk release:
+
+- **v1.0.0** - Major release, breaking changes
+- **v1.1.0** - Minor release, new features
+- **v1.0.1** - Patch release, bug fixes
+
+### Publishing ke Packagist
+
+1. Create account di [Packagist.org](https://packagist.org)
+2. Submit package URL: `https://github.com/apriansyahrs/import-excel`
+3. Setup auto-update webhook di GitHub
+4. Update dokumentasi untuk menggunakan Packagist install
+
+### Pre-release Testing
+
+Sebelum release, pastikan:
+
+```bash
+# Jalankan semua test
+./vendor/bin/pest
+
+# Check code quality
+./vendor/bin/phpstan analyse
+
+# Format code
+./vendor/bin/pint
+
+# Test install di project baru
+composer create-project laravel/laravel test-project
+cd test-project
+# ... tambahkan repository dan install plugin
+```
+
 ## Architecture Overview
 
 ### Import Flow

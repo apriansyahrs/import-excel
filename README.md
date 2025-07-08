@@ -19,9 +19,28 @@ Plugin Laravel Filament v3 untuk mengimpor data dari file Excel dengan dukungan 
 
 ### Instalasi
 
-```bash
-composer require apriansyahrs/import-excel
+Karena plugin belum di-publish ke Packagist, install dari GitHub:
+
+1. Tambahkan repository ke `composer.json`:
+```json
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/apriansyahrs/import-excel.git"
+        }
+    ]
+}
 ```
+
+2. Install plugin:
+```bash
+composer require apriansyahrs/import-excel:dev-main
+```
+
+> **Catatan**: 
+> - Jika ada error "minimum-stability", tambahkan `"minimum-stability": "dev"` ke `composer.json` atau gunakan flag `--with-dependencies`
+> - Plugin akan tersedia di Packagist setelah stable release
 
 ### Setup Database
 
@@ -99,6 +118,23 @@ Plugin ini menggunakan:
 - [Fitur Lanjutan](docs/fitur-lanjutan.md) - Kustomisasi dan fitur advanced
 - [Testing](docs/testing.md) - Panduan testing
 - [Panduan Development](docs/panduan-development.md) - Untuk developer
+- [CHANGELOG](CHANGELOG.md) - Release notes dan perubahan versi
+
+## 🤝 Contributing
+
+Kami sangat menyambut kontribusi dari komunitas! Silakan baca:
+
+- [CONTRIBUTING.md](CONTRIBUTING.md) - Panduan kontribusi dalam bahasa Indonesia
+- [Template Issue](.github/ISSUE_TEMPLATE/) - Template laporan bug dan permintaan fitur
+- [Template PR](.github/pull_request_template.md) - Template Pull Request
+
+### Quick Contributing Guide
+
+1. Fork repository
+2. Create feature branch: `git checkout -b feature/amazing-feature`
+3. Commit changes: `git commit -m 'feat: add amazing feature'`
+4. Push branch: `git push origin feature/amazing-feature`
+5. Open Pull Request
 
 ## 🛠️ Persyaratan
 

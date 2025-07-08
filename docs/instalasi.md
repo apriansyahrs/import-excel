@@ -10,13 +10,91 @@
 
 ## Instalasi Plugin
 
-Install plugin melalui Composer:
+### Dari GitHub Repository (Recommended untuk saat ini)
+
+Karena plugin belum di-publish ke Packagist, install dari GitHub repository:
+
+1. Tambahkan repository ke `composer.json`:
+
+```json
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/apriansyahrs/import-excel.git"
+        }
+    ]
+}
+```
+
+2. Install plugin:
+
+```bash
+composer require apriansyahrs/import-excel:dev-main
+```
+
+> **Catatan**: Gunakan `dev-main` untuk branch main, atau tentukan tag/branch tertentu seperti `v1.0.0` jika tersedia.
+
+### Untuk Development/Testing
+
+Jika ingin development/testing dari local clone:
+
+```bash
+# Clone repository
+git clone https://github.com/apriansyahrs/import-excel.git
+
+# Di composer.json project Laravel Anda
+{
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../path/to/import-excel"
+        }
+    ]
+}
+
+# Install dari path local
+composer require apriansyahrs/import-excel:@dev
+```
+
+### Dari Packagist (Coming Soon)
+
+Setelah plugin di-publish ke Packagist:
 
 ```bash
 composer require apriansyahrs/import-excel
 ```
 
 Plugin akan otomatis terdaftar melalui Laravel package discovery menggunakan `Apriansyahrs\ImportExcel\ImportExcelServiceProvider`.
+
+## Update Plugin
+
+### Update dari GitHub
+
+Untuk mendapatkan update terbaru dari GitHub:
+
+```bash
+composer update apriansyahrs/import-excel
+```
+
+### Troubleshooting Installation
+
+**Error "minimum-stability":**
+```json
+{
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
+```
+
+**Error "VCS repository":**
+Pastikan Git dapat mengakses repository. Untuk private repository, setup SSH key atau access token.
+
+**Cache Issues:**
+```bash
+composer clear-cache
+composer update apriansyahrs/import-excel --no-cache
+```
 
 ## Publikasi Asset
 
