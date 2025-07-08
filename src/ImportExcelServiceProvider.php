@@ -14,13 +14,7 @@ class ImportExcelServiceProvider extends ServiceProvider
             'import-excel' // Translation namespace
         );
 
-        // Ensure migration directory exists
-        if (! File::exists(__DIR__.'/../database/migrations')) {
-            File::makeDirectory(__DIR__.'/../database/migrations', 0o755, true);
-        }
-
-        // Load migrations with timestamps
-        $this->ensureMigrationsHaveTimestamps();
+        // Load migrations from package
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         // Publishing resources
@@ -30,34 +24,36 @@ class ImportExcelServiceProvider extends ServiceProvider
                 __DIR__.'/../resources/lang' => resource_path('lang/vendor/import-excel'),
             ], 'import-excel-translations');
 
-            // Publish migrations
-            $this->publishes([
-                __DIR__.'/../database/migrations' => database_path('migrations'),
-            ], 'import-excel-migrations');
+            // Publish migrations with dynamic timestamps
+            $this->publishMigrationsWithTimestamp();
         }
     }
 
     /**
-     * Ensure that migration files have timestamps.
+     * Publish migrations with current timestamp to avoid conflicts.
      */
-    protected function ensureMigrationsHaveTimestamps(): void
+    protected function publishMigrationsWithTimestamp(): void
     {
-        $migrationFiles = File::glob(__DIR__.'/../database/migrations/*.php');
+        $baseTimestamp = time();
+        
+        $migrations = [
+            'create_imports_table.php',
+            'create_failed_import_rows_table.php',
+        ];
 
-        foreach ($migrationFiles as $file) {
-            $filename = basename($file);
-
-            // Check if the migration has a timestamp (e.g., 2023_01_01_000000_)
-            if (! preg_match('/^\d{4}_\d{2}_\d{2}_\d{6}_/', $filename)) {
-                $timestamp = date('Y_m_d_His');
-                $newFilename = $timestamp.'_'.$filename;
-                $newPath = __DIR__.'/../database/migrations/'.$newFilename;
-
-                // Rename the file if it doesn't have a timestamp
-                if (! File::exists($newPath)) {
-                    File::move($file, $newPath);
-                }
+        $publishPaths = [];
+        foreach ($migrations as $index => $migrationName) {
+            $timestamp = date('Y_m_d_His', $baseTimestamp + $index);
+            $sourcePath = __DIR__.'/../database/stubs/'.$migrationName;
+            $targetPath = database_path('migrations/'.$timestamp.'_'.$migrationName);
+            
+            if (File::exists($sourcePath)) {
+                $publishPaths[$sourcePath] = $targetPath;
             }
+        }
+
+        if (!empty($publishPaths)) {
+            $this->publishes($publishPaths, 'import-excel-migrations');
         }
     }
 

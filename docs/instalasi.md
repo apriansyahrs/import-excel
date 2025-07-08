@@ -134,6 +134,17 @@ php artisan vendor:publish --tag="import-excel-migrations"
 php artisan migrate
 ```
 
+**✨ Fitur Timestamp Dinamis:**
+- Migration files yang di-publish akan otomatis menggunakan timestamp saat ini
+- Tidak akan konflik dengan migration yang sudah ada
+- Setiap kali publish, timestamp akan diupdate sesuai waktu eksekusi
+
+Contoh hasil publish:
+```
+2025_07_08_074149_create_imports_table.php
+2025_07_08_074150_create_failed_import_rows_table.php
+```
+
 Migrasi akan membuat tabel:
 - `imports` - Menyimpan data import
 - `failed_import_rows` - Menyimpan baris yang gagal diimpor
