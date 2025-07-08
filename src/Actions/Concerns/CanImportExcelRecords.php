@@ -456,7 +456,7 @@ trait CanImportExcelRecords
                 $this instanceof TableAction => TableAction::class,
                 default => Action::class,
             })::make('downloadExample')
-                ->label(__('filament-excel-import::import.actions.example_template.label'))
+                ->label(__('excel-import::import.actions.example_template.label'))
                 ->link()
                 ->action(function (): StreamedResponse {
                     $columns = $this->getImporter()::getColumns();
