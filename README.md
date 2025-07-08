@@ -44,22 +44,31 @@ composer require apriansyahrs/import-excel:dev-main
 
 ### Setup Database
 
+**Smart Publish (Direkomendasikan)** ⭐
+
+```bash
+# Otomatis detect dan publish migration yang diperlukan
+php artisan import-excel:publish-migrations
+
+# Jalankan migration
+php artisan migrate
+```
+
+**Traditional Publish (Manual)**
+
 ```bash
 # Publish semua opsi migration
 php artisan vendor:publish --tag="import-excel-migrations"
 
-# Pilih dan jalankan migration sesuai kondisi database Anda:
-# - Jika table belum ada: jalankan create_* migrations
-# - Jika table sudah ada: jalankan add_columns_* migrations
-# - Atau jalankan semua (Laravel akan skip yang tidak diperlukan)
+# Pilih dan jalankan migration sesuai kondisi database
 php artisan migrate
 ```
 
-**📋 Migration yang Di-publish:**
-- `create_imports_table.php` - Membuat table imports baru
-- `create_failed_import_rows_table.php` - Membuat table failed_import_rows baru  
-- `add_columns_to_imports_table.php` - Menambah kolom ke table imports existing
-- `add_columns_to_failed_import_rows_table.php` - Menambah kolom ke table failed_import_rows existing
+**🧠 Smart Publish Features:**
+- **Cek database** saat ini otomatis
+- **Hanya publish** migration yang benar-benar diperlukan  
+- **Feedback jelas** tentang apa yang akan dilakukan
+- **No waste** - tidak ada file migration yang tidak perlu
 
 > Plugin ini 100% kompatibel dengan setup Filament Import yang sudah ada!
 

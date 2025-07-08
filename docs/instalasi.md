@@ -125,65 +125,65 @@ composer update apriansyahrs/import-excel --no-cache
 
 ## Setup Database 
 
-Setelah install plugin, jalankan command berikut untuk setup database:
+Setelah install plugin, ada **2 cara** untuk setup database:
+
+### 🧠 Cara 1: Smart Publish (Direkomendasikan) ⭐
+
+```bash
+php artisan import-excel:publish-migrations
+```
+
+Command ini akan:
+1. **Cek kondisi database** saat ini
+2. **Hanya publish migration** yang benar-benar diperlukan
+3. **Memberikan feedback** apa yang akan dilakukan
+
+**Contoh output untuk kasus table sudah ada:**
+```
+🔍 Checking current database state...
+   ✅ imports table: OK (all columns exist)
+   📋 failed_import_rows table: EXISTS → will ADD columns: error
+📝 Publishing required migrations...
+✅ Successfully published migrations:
+   - 2025_07_08_154731_add_columns_to_failed_import_rows_table.php
+💡 Next step: Run php artisan migrate
+```
+
+**Contoh output untuk fresh install:**
+```
+🔍 Checking current database state...
+   📋 imports table: NOT EXISTS → will CREATE
+   📋 failed_import_rows table: NOT EXISTS → will CREATE
+📝 Publishing required migrations...
+✅ Successfully published migrations:
+   - 2025_07_08_154731_create_imports_table.php
+   - 2025_07_08_154732_create_failed_import_rows_table.php
+💡 Next step: Run php artisan migrate
+```
+
+### 📋 Cara 2: Traditional Publish (Manual)
 
 ```bash
 php artisan vendor:publish --tag="import-excel-migrations"
 ```
 
-Command ini akan meng-publish **semua opsi migration** yang tersedia:
+Command ini akan publish **semua opsi migration** (4 files), lalu Anda pilih mana yang perlu dijalankan.
 
-```
-2025_07_08_080000_create_imports_table.php
-2025_07_08_080001_create_failed_import_rows_table.php  
-2025_07_08_080002_add_columns_to_imports_table.php
-2025_07_08_080003_add_columns_to_failed_import_rows_table.php
-```
+### 🚀 Jalankan Migration
 
-### 🧠 Pilih Migration yang Tepat
-
-Setelah publish, **pilih dan jalankan migration** sesuai kondisi database Anda:
-
-#### Skenario 1: Table Belum Ada Sama Sekali
-```bash
-# Jalankan migration untuk membuat table baru
-php artisan migrate --path=database/migrations/*_create_imports_table.php
-php artisan migrate --path=database/migrations/*_create_failed_import_rows_table.php
-```
-
-#### Skenario 2: Table Sudah Ada (dari Filament)
-```bash
-# Jalankan migration untuk menambah kolom yang diperlukan
-php artisan migrate --path=database/migrations/*_add_columns_to_imports_table.php
-php artisan migrate --path=database/migrations/*_add_columns_to_failed_import_rows_table.php
-```
-
-#### Skenario 3: Mix (Sebagian Ada, Sebagian Belum)
-```bash
-# Pilih migration yang sesuai dengan kondisi masing-masing table
-php artisan migrate --path=database/migrations/*_create_imports_table.php
-php artisan migrate --path=database/migrations/*_add_columns_to_failed_import_rows_table.php
-```
-
-### 🚀 Atau Jalankan Semua (Safe)
-
-Jika tidak yakin dengan kondisi database, jalankan semua migration. Laravel akan otomatis **skip migration yang tidak diperlukan**:
+Setelah publish migration (dengan cara manapun):
 
 ```bash
 php artisan migrate
 ```
 
-Migration sudah dibuat dengan **fail-safe logic**:
-- `create_*` migration akan di-skip jika table sudah ada
-- `add_columns_*` migration akan di-skip jika kolom sudah ada
+### ✨ Keunggulan Smart Publish
 
-### ✨ Keunggulan Pendekatan Ini
-
-- ✅ **Flexibility**: User bisa pilih migration yang tepat
-- ✅ **Transparency**: Bisa lihat apa yang akan dijalankan sebelum migrate
-- ✅ **Safe**: Tidak akan crash jika table/kolom sudah ada
-- ✅ **Version Control**: Migration files bisa di-commit ke repo
-- ✅ **Team Friendly**: Cocok untuk development tim
+- ✅ **Intelligent**: Hanya publish yang diperlukan
+- ✅ **Clean**: Tidak ada file migration yang tidak perlu
+- ✅ **User-friendly**: Feedback yang jelas
+- ✅ **Fast**: Langsung bisa `php artisan migrate`
+- ✅ **Safe**: Tidak akan publish ulang jika sudah lengkap
 
 ### 📋 Table Structure Setelah Setup
 

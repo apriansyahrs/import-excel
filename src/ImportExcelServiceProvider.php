@@ -21,9 +21,10 @@ class ImportExcelServiceProvider extends ServiceProvider
 
         // Publishing resources
         if ($this->app->runningInConsole()) {
-            // Register setup command (fallback jika user prefer command)
+            // Register commands
             $this->commands([
                 \Apriansyahrs\ImportExcel\Console\Commands\SetupImportExcelCommand::class,
+                \Apriansyahrs\ImportExcel\Console\Commands\PublishMigrationsCommand::class,
             ]);
 
             // Publish translations
@@ -31,7 +32,7 @@ class ImportExcelServiceProvider extends ServiceProvider
                 __DIR__.'/../resources/lang' => resource_path('lang/vendor/import-excel'),
             ], 'import-excel-translations');
 
-            // Publish ALL possible migrations, let user choose which to run
+            // Keep traditional publish method as fallback
             $this->publishAllMigrationOptions();
         }
     }
