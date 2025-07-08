@@ -9,7 +9,7 @@ Plugin ini menggunakan model custom yang extends dari Filament's base models:
 - `Apriansyahrs\ImportExcel\Models\Import` - Extends dari `Filament\Actions\Imports\Models\Import`
 - `Apriansyahrs\ImportExcel\Models\FailedImportRow` - Model khusus untuk tracking baris yang gagal
 
-Plugin menggunakan namespace `filament-import-excel` untuk sistem terjemahan.
+Plugin menggunakan namespace `import-excel` untuk sistem terjemahan.
 
 ## Membuat Importer Class
 

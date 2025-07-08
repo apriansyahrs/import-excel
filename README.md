@@ -108,7 +108,7 @@ Plugin ini menggunakan:
   - `Import` - Extends dari `Filament\Actions\Imports\Models\Import`
   - `FailedImportRow` - Model khusus untuk tracking error
 - **Job**: `ImportExcel` - Background processing dengan queue
-- **Translation Namespace**: `filament-import-excel`
+- **Translation Namespace**: `import-excel`
 
 ## 📚 Dokumentasi
 

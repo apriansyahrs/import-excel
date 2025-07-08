@@ -11,7 +11,7 @@ class ImportExcelServiceProvider extends ServiceProvider
     {
         $this->loadTranslationsFrom(
             __DIR__.'/../resources/lang', // Correct path to package lang files
-            'filament-import-excel' // Translation namespace
+            'import-excel' // Translation namespace
         );
 
         // Ensure migration directory exists
