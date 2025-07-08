@@ -76,8 +76,8 @@ trait CanImportExcelRecords
 
         $this->form(fn (ImportAction|ImportTableAction $action): array => array_merge([
             FileUpload::make('file')
-                ->label(__('filament-import-excel::import.modal.form.file.label'))
-                ->placeholder(__('filament-import-excel::import.modal.form.file.placeholder'))
+                ->label(__('import-excel::import.modal.form.file.label'))
+                ->placeholder(__('import-excel::import.modal.form.file.placeholder'))
                 ->acceptedFileTypes([
                     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                     'application/vnd.ms-excel',
@@ -456,7 +456,7 @@ trait CanImportExcelRecords
                 $this instanceof TableAction => TableAction::class,
                 default => Action::class,
             })::make('downloadExample')
-                ->label(__('excel-import::import.actions.example_template.label'))
+                ->label(__('import-excel::import.actions.example_template.label'))
                 ->link()
                 ->action(function (): StreamedResponse {
                     $columns = $this->getImporter()::getColumns();
