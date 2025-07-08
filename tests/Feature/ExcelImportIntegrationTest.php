@@ -95,7 +95,7 @@ class ExcelImportIntegrationTest extends TestCase
     }
 
     /** @test */
-    public function it_handles_validation_errors_during_import()
+    public function it_handles_validation_error_during_import()
     {
         // Create test Excel file with invalid data
         $excelFile = ExcelTestHelper::createInvalidDataExcelFile();
@@ -408,7 +408,7 @@ class ExcelImportIntegrationTest extends TestCase
         FailedImportRow::create([
             'import_id' => $import->id,
             'data' => ['name' => 'Invalid User', 'email' => 'invalid-email'],
-            'validation_errors' => ['email' => ['The email must be a valid email address.']],
+            'validation_error' => ['email' => ['The email must be a valid email address.']],
             'error' => 'Validation failed',
         ]);
 

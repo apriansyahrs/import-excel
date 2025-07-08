@@ -12,13 +12,22 @@ return new class extends Migration
     public function up(): void
     {
         if (! Schema::hasTable('failed_import_rows')) {
+            // Buat table baru jika belum ada
             Schema::create('failed_import_rows', function (Blueprint $table) {
                 $table->id();
-                $table->foreignId('import_id')->constrained('imports')->cascadeOnDelete();
                 $table->json('data');
-                $table->json('validation_errors')->nullable();
-                $table->text('error')->nullable();
+                $table->foreignId('import_id')->constrained()->cascadeOnDelete();
+                $table->json('validation_error')->nullable(); // Gunakan nama kolom yang sama dengan Filament
+                $table->text('error')->nullable(); // Kolom tambahan untuk error lainnya
                 $table->timestamps();
+            });
+        } else {
+            // Table sudah ada (dari Filament bawaan), tambahkan kolom yang diperlukan
+            Schema::table('failed_import_rows', function (Blueprint $table) {
+                // Tambahkan kolom error jika belum ada (Filament bawaan hanya punya validation_error)
+                if (! Schema::hasColumn('failed_import_rows', 'error')) {
+                    $table->text('error')->nullable()->after('validation_error');
+                }
             });
         }
     }

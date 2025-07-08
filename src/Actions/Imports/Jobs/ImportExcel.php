@@ -96,7 +96,7 @@ class ImportExcel implements ShouldQueue
                             fn ($value) => is_null($value) ? null : (string) $value,
                             $processedRow,
                         ),
-                        'validation_errors' => [],
+                        'validation_error' => [], // Sesuaikan dengan nama kolom bawaan Filament
                         'import_id' => $import->getKey(),
                         'error' => $exception->getMessage(),
                     ]);

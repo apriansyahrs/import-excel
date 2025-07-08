@@ -44,7 +44,7 @@ class ImportModelTest extends TestCase
         $failedRow = FailedImportRow::create([
             'import_id' => $import->id,
             'data' => ['name' => 'John', 'email' => 'invalid-email'],
-            'validation_errors' => ['email' => ['The email must be a valid email address.']],
+            'validation_error' => ['email' => ['The email must be a valid email address.']],
             'error' => 'Validation failed',
         ]);
 
@@ -66,14 +66,14 @@ class ImportModelTest extends TestCase
         FailedImportRow::create([
             'import_id' => $import->id,
             'data' => ['name' => 'John', 'email' => 'invalid-email'],
-            'validation_errors' => ['email' => ['The email must be a valid email address.']],
+            'validation_error' => ['email' => ['The email must be a valid email address.']],
             'error' => 'Validation failed',
         ]);
 
         FailedImportRow::create([
             'import_id' => $import->id,
             'data' => ['name' => '', 'email' => 'test@example.com'],
-            'validation_errors' => ['name' => ['The name field is required.']],
+            'validation_error' => ['name' => ['The name field is required.']],
             'error' => 'Validation failed',
         ]);
 

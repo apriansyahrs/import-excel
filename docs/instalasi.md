@@ -8,6 +8,33 @@
 - Laravel 10.0+
 - Filament 3.0+
 
+## Kompatibilitas dengan Filament Import
+
+**Plugin ini 100% kompatibel dengan Filament Import bawaan!**
+
+Jika Anda sudah memiliki table `imports` dan `failed_import_rows` dari setup Filament sebelumnya, migrasi plugin ini akan:
+
+- ✅ **Mendeteksi table yang sudah ada** dan hanya menambahkan kolom yang diperlukan
+- ✅ **Tidak menimpa** struktur table existing
+- ✅ **Menggunakan nama kolom yang sama** dengan Filament bawaan (`validation_error` singular)
+- ✅ **Menambahkan backward compatibility** untuk code yang menggunakan `validation_errors` (plural)
+
+### Struktur Table yang Didukung
+
+**Table `imports`:**
+```sql
+-- Bawaan Filament + kolom tambahan:
+id, completed_at, file_name, file_path, importer, 
+processed_rows, total_rows, successful_rows, user_id,
+imported_rows, failed_rows, timestamps
+```
+
+**Table `failed_import_rows`:**
+```sql
+-- Bawaan Filament + kolom tambahan:
+id, data, import_id, validation_error, error, timestamps
+```
+
 ## Instalasi Plugin
 
 ### Dari GitHub Repository (Recommended untuk saat ini)

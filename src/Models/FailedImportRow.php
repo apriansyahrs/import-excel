@@ -12,13 +12,13 @@ class FailedImportRow extends Model
     protected $fillable = [
         'import_id',
         'data',
-        'validation_errors',
+        'validation_error', // Kolom asli di database (sesuai Filament)
         'error',
     ];
 
     protected $casts = [
         'data' => 'array',
-        'validation_errors' => 'array',
+        'validation_error' => 'array',
     ];
 
     /**
