@@ -123,43 +123,81 @@ composer clear-cache
 composer update apriansyahrs/import-excel --no-cache
 ```
 
-## Publikasi Asset
+## Setup Database 
 
-### Migrasi Database ⚠️ WAJIB
-
-**PENTING:** Plugin ini memerlukan publikasi migration terlebih dahulu sebelum bisa digunakan.
+Setelah install plugin, jalankan command berikut untuk setup database:
 
 ```bash
-# 1. Publish migrations (WAJIB)
 php artisan vendor:publish --tag="import-excel-migrations"
-
-# 2. Jalankan migrations
 php artisan migrate
 ```
 
-**Mengapa harus publish?**
-- Menghindari konflik dengan migration yang sudah ada
-- Memungkinkan customization jika diperlukan  
-- Timestamp migration disesuaikan dengan waktu publish
+### 🧠 Intelligent Migration System
 
-**✨ Fitur Timestamp Dinamis:**
-- Migration files yang di-publish akan otomatis menggunakan timestamp saat ini
-- Tidak akan konflik dengan migration yang sudah ada
-- Setiap kali publish, timestamp akan diupdate sesuai waktu eksekusi
+Plugin ini menggunakan **intelligent migration system** yang otomatis mendeteksi kondisi database Anda:
 
-Contoh hasil publish:
-```
-2025_07_08_074149_create_imports_table.php
-2025_07_08_074150_create_failed_import_rows_table.php
+#### Skenario 1: Table Belum Ada
+```bash
+# Jika table imports dan failed_import_rows belum ada
+php artisan vendor:publish --tag="import-excel-migrations"
 ```
 
-Migrasi akan membuat tabel:
-- `imports` - Menyimpan data import
-- `failed_import_rows` - Menyimpan baris yang gagal diimpor
+**Output:** 
+```
+2025_07_08_080000_create_imports_table.php
+2025_07_08_080001_create_failed_import_rows_table.php
+```
 
-**Jika sudah ada table `imports` dan `failed_import_rows`:**
-- Migration akan mendeteksi dan hanya menambahkan kolom yang diperlukan
-- Tidak akan menimpa data existing
+Plugin akan generate migration untuk **membuat table baru** dengan struktur lengkap.
+
+#### Skenario 2: Table Sudah Ada (dari Filament)
+```bash
+# Jika sudah ada table imports dan failed_import_rows dari Filament
+php artisan vendor:publish --tag="import-excel-migrations"
+```
+
+**Output:**
+```
+2025_07_08_080000_add_columns_to_imports_table.php
+2025_07_08_080001_add_columns_to_failed_import_rows_table.php
+```
+
+Plugin akan generate migration untuk **menambah kolom yang diperlukan** saja:
+- `imports` table: menambah `imported_rows`, `failed_rows`
+- `failed_import_rows` table: menambah `error`
+
+#### Skenario 3: Sudah Setup Lengkap
+```bash
+# Jika semua table dan kolom sudah ada
+php artisan vendor:publish --tag="import-excel-migrations"
+```
+
+**Output:** Tidak ada migration yang di-generate karena semua sudah lengkap.
+
+### ✨ Keunggulan Sistem Ini
+
+- ✅ **Smart Detection**: Auto-detect kondisi database
+- ✅ **No Conflict**: Tidak akan crash jika table sudah ada
+- ✅ **Incremental**: Hanya tambah yang diperlukan
+- ✅ **Dynamic Timestamp**: Timestamp selalu current time
+- ✅ **Filament Compatible**: 100% kompatibel dengan Filament Import
+- ✅ **Zero Configuration**: Tidak perlu config manual
+
+### 📋 Table Structure
+
+**Table `imports`:**
+```sql
+-- Struktur lengkap setelah setup
+id, completed_at, file_name, file_path, importer,
+processed_rows, total_rows, successful_rows, user_id,
+imported_rows, failed_rows, timestamps
+```
+
+**Table `failed_import_rows`:**
+```sql  
+-- Struktur lengkap setelah setup
+id, data, import_id, validation_error, error, timestamps
+```
 
 ### File Terjemahan (Opsional)
 
