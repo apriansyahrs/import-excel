@@ -1,0 +1,30 @@
+parameters:
+    level: 5
+    paths:
+        - src
+        - tests
+    tmpDir: build/phpstan
+    checkOctaneCompatibility: true
+    checkModelProperties: true
+    excludePaths:
+        - src/database/migrations/*
+    ignoreErrors:
+        - '#Call to an undefined method .*::(factory|create|make)\(\)#'
+        - '#Access to an undefined property .*::\$.*#'
+        - '#Call to an undefined method Illuminate\\.*::(factory|create|make)\(\)#'
+        - '#Call to an undefined method [a-zA-Z0-9\\_]+::fake\(\)#'
+        - '#Call to an undefined method [a-zA-Z0-9\\_]+::shouldReceive\(\)#'
+        - '#PHPDoc tag @test#'
+        - '#Access to an undefined property#'
+        - '#Call to an undefined static method#'
+        - '#Call to an undefined method#'
+        - '#Parameter .* expects .*, .* given#'
+        - '#Anonymous function should return .* but returns#'
+        - '#Method class@anonymous.*::batch\(\) should return .* but returns#'
+        -
+            identifier: missingType.iterableValue
+        -
+            identifier: missingType.generics
+    reportUnmatchedIgnoredErrors: false
+    bootstrapFiles:
+        - vendor/autoload.php 

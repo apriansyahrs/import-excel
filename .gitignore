@@ -1,0 +1,71 @@
+# Dependencies
+/vendor/
+node_modules/
+composer.lock
+
+# Build artifacts
+/build/
+/coverage/
+/.phpunit.cache/
+
+# IDE files
+/.idea/
+/.vscode/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+/temp/
+
+# Log files
+*.log
+/storage/logs/
+
+# Coverage reports
+coverage.clover
+coverage.xml
+/.coverage/
+
+# PHPStan cache
+/phpstan.cache
+phpstan.cache
+
+# PHP CS Fixer cache
+.php-cs-fixer.cache
+.php_cs.cache
+
+# Pint cache
+.pint.cache
+
+# Laravel specific
+/storage/framework/sessions/
+/storage/framework/cache/
+/bootstrap/cache/
+.env.local
+.env.*.local
+
+# Testing
+/tests/coverage/
+/tests/reports/
+
+# Laravel Pint cache
+.pint.cache
+
+# Test artifacts
+.phpunit.result.cache
+
+# Ray dumps
+ray-*.html
+
+# Pest coverage
+.pest-coverage 
