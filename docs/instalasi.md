@@ -129,61 +129,63 @@ Setelah install plugin, jalankan command berikut untuk setup database:
 
 ```bash
 php artisan vendor:publish --tag="import-excel-migrations"
-php artisan migrate
 ```
 
-### 🧠 Intelligent Migration System
+Command ini akan meng-publish **semua opsi migration** yang tersedia:
 
-Plugin ini menggunakan **intelligent migration system** yang otomatis mendeteksi kondisi database Anda:
-
-#### Skenario 1: Table Belum Ada
-```bash
-# Jika table imports dan failed_import_rows belum ada
-php artisan vendor:publish --tag="import-excel-migrations"
-```
-
-**Output:** 
 ```
 2025_07_08_080000_create_imports_table.php
-2025_07_08_080001_create_failed_import_rows_table.php
+2025_07_08_080001_create_failed_import_rows_table.php  
+2025_07_08_080002_add_columns_to_imports_table.php
+2025_07_08_080003_add_columns_to_failed_import_rows_table.php
 ```
 
-Plugin akan generate migration untuk **membuat table baru** dengan struktur lengkap.
+### 🧠 Pilih Migration yang Tepat
+
+Setelah publish, **pilih dan jalankan migration** sesuai kondisi database Anda:
+
+#### Skenario 1: Table Belum Ada Sama Sekali
+```bash
+# Jalankan migration untuk membuat table baru
+php artisan migrate --path=database/migrations/*_create_imports_table.php
+php artisan migrate --path=database/migrations/*_create_failed_import_rows_table.php
+```
 
 #### Skenario 2: Table Sudah Ada (dari Filament)
 ```bash
-# Jika sudah ada table imports dan failed_import_rows dari Filament
-php artisan vendor:publish --tag="import-excel-migrations"
+# Jalankan migration untuk menambah kolom yang diperlukan
+php artisan migrate --path=database/migrations/*_add_columns_to_imports_table.php
+php artisan migrate --path=database/migrations/*_add_columns_to_failed_import_rows_table.php
 ```
 
-**Output:**
-```
-2025_07_08_080000_add_columns_to_imports_table.php
-2025_07_08_080001_add_columns_to_failed_import_rows_table.php
-```
-
-Plugin akan generate migration untuk **menambah kolom yang diperlukan** saja:
-- `imports` table: menambah `imported_rows`, `failed_rows`
-- `failed_import_rows` table: menambah `error`
-
-#### Skenario 3: Sudah Setup Lengkap
+#### Skenario 3: Mix (Sebagian Ada, Sebagian Belum)
 ```bash
-# Jika semua table dan kolom sudah ada
-php artisan vendor:publish --tag="import-excel-migrations"
+# Pilih migration yang sesuai dengan kondisi masing-masing table
+php artisan migrate --path=database/migrations/*_create_imports_table.php
+php artisan migrate --path=database/migrations/*_add_columns_to_failed_import_rows_table.php
 ```
 
-**Output:** Tidak ada migration yang di-generate karena semua sudah lengkap.
+### 🚀 Atau Jalankan Semua (Safe)
 
-### ✨ Keunggulan Sistem Ini
+Jika tidak yakin dengan kondisi database, jalankan semua migration. Laravel akan otomatis **skip migration yang tidak diperlukan**:
 
-- ✅ **Smart Detection**: Auto-detect kondisi database
-- ✅ **No Conflict**: Tidak akan crash jika table sudah ada
-- ✅ **Incremental**: Hanya tambah yang diperlukan
-- ✅ **Dynamic Timestamp**: Timestamp selalu current time
-- ✅ **Filament Compatible**: 100% kompatibel dengan Filament Import
-- ✅ **Zero Configuration**: Tidak perlu config manual
+```bash
+php artisan migrate
+```
 
-### 📋 Table Structure
+Migration sudah dibuat dengan **fail-safe logic**:
+- `create_*` migration akan di-skip jika table sudah ada
+- `add_columns_*` migration akan di-skip jika kolom sudah ada
+
+### ✨ Keunggulan Pendekatan Ini
+
+- ✅ **Flexibility**: User bisa pilih migration yang tepat
+- ✅ **Transparency**: Bisa lihat apa yang akan dijalankan sebelum migrate
+- ✅ **Safe**: Tidak akan crash jika table/kolom sudah ada
+- ✅ **Version Control**: Migration files bisa di-commit ke repo
+- ✅ **Team Friendly**: Cocok untuk development tim
+
+### 📋 Table Structure Setelah Setup
 
 **Table `imports`:**
 ```sql

@@ -45,15 +45,21 @@ composer require apriansyahrs/import-excel:dev-main
 ### Setup Database
 
 ```bash
+# Publish semua opsi migration
 php artisan vendor:publish --tag="import-excel-migrations"
+
+# Pilih dan jalankan migration sesuai kondisi database Anda:
+# - Jika table belum ada: jalankan create_* migrations
+# - Jika table sudah ada: jalankan add_columns_* migrations
+# - Atau jalankan semua (Laravel akan skip yang tidak diperlukan)
 php artisan migrate
 ```
 
-**🧠 Intelligent Migration System:**
-- **Table belum ada?** → Generate migration untuk create table baru
-- **Table sudah ada?** → Generate migration untuk add kolom yang diperlukan
-- **Sudah lengkap?** → Tidak generate migration apapun
-- **Timestamp dinamis** → Selalu menggunakan waktu saat ini
+**📋 Migration yang Di-publish:**
+- `create_imports_table.php` - Membuat table imports baru
+- `create_failed_import_rows_table.php` - Membuat table failed_import_rows baru  
+- `add_columns_to_imports_table.php` - Menambah kolom ke table imports existing
+- `add_columns_to_failed_import_rows_table.php` - Menambah kolom ke table failed_import_rows existing
 
 > Plugin ini 100% kompatibel dengan setup Filament Import yang sudah ada!
 
