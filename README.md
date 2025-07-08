@@ -42,12 +42,19 @@ composer require apriansyahrs/import-excel:dev-main
 > - Jika ada error "minimum-stability", tambahkan `"minimum-stability": "dev"` ke `composer.json` atau gunakan flag `--with-dependencies`
 > - Plugin akan tersedia di Packagist setelah stable release
 
-### Setup Database
+### Setup Database ⚠️ WAJIB
+
+**PENTING:** Wajib publish migrations sebelum menggunakan plugin ini.
 
 ```bash
+# 1. Publish migrations (WAJIB)
 php artisan vendor:publish --tag="import-excel-migrations"
+
+# 2. Jalankan migrations  
 php artisan migrate
 ```
+
+> **Catatan**: Migration akan otomatis menggunakan timestamp saat ini untuk menghindari konflik dengan migration yang sudah ada.
 
 ### Buat Importer Class
 

@@ -125,14 +125,22 @@ composer update apriansyahrs/import-excel --no-cache
 
 ## Publikasi Asset
 
-### Migrasi Database
+### Migrasi Database ⚠️ WAJIB
 
-Publikasikan dan jalankan migrasi untuk membuat tabel yang diperlukan:
+**PENTING:** Plugin ini memerlukan publikasi migration terlebih dahulu sebelum bisa digunakan.
 
 ```bash
+# 1. Publish migrations (WAJIB)
 php artisan vendor:publish --tag="import-excel-migrations"
+
+# 2. Jalankan migrations
 php artisan migrate
 ```
+
+**Mengapa harus publish?**
+- Menghindari konflik dengan migration yang sudah ada
+- Memungkinkan customization jika diperlukan  
+- Timestamp migration disesuaikan dengan waktu publish
 
 **✨ Fitur Timestamp Dinamis:**
 - Migration files yang di-publish akan otomatis menggunakan timestamp saat ini
@@ -148,6 +156,10 @@ Contoh hasil publish:
 Migrasi akan membuat tabel:
 - `imports` - Menyimpan data import
 - `failed_import_rows` - Menyimpan baris yang gagal diimpor
+
+**Jika sudah ada table `imports` dan `failed_import_rows`:**
+- Migration akan mendeteksi dan hanya menambahkan kolom yang diperlukan
+- Tidak akan menimpa data existing
 
 ### File Terjemahan (Opsional)
 

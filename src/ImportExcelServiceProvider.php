@@ -14,8 +14,9 @@ class ImportExcelServiceProvider extends ServiceProvider
             'import-excel' // Translation namespace
         );
 
-        // Load migrations from package
-        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        // TIDAK auto-load migrations dari package untuk menghindari duplikasi
+        // User harus publish migrations terlebih dahulu
+        // $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
         // Publishing resources
         if ($this->app->runningInConsole()) {
